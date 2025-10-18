@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel @SIELZADA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: #0b0f29;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      position: relative;
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .painel {
+      position: relative;
+      z-index: 1;
+      background: rgba(10, 20, 60, 0.9);
+      border-radius: 20px;
+      padding: 25px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #fff;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h2::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      100% { left: 150%; }
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      background: #0d1a5b;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 25px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px 0;
+      background: #132b82;
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.3s;
+      user-select: none;
+    }
+
+    .tab.active {
+      background: #3a7bfd;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .options {
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.2);
+      margin-right: 8px;
+      accent-color: #3a7bfd;
+      cursor: pointer;
+    }
+
+    .slider-container {
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #3a7bfd;
+      cursor: pointer;
+    }
+
+    .fov-value {
+      float: right;
+      font-weight: bold;
+      color: #3a7bfd;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      background: #091d5c;
+      color: white;
+      border: none;
+      text-align: center;
+      margin-bottom: 25px;
+      cursor: pointer;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #3a7bfd, #00c6ff);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      animation: glow 2.5s infinite alternate;
+      box-shadow: 0 0 15px rgba(58, 123, 253, 0.5);
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 25px rgba(0, 198, 255, 0.8);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 10px #3a7bfd, 0 0 20px #3a7bfd;
+      }
+      100% {
+        box-shadow: 0 0 20px #00c6ff, 0 0 35px #00c6ff;
+      }
+    }
+
+    .info-text {
+      font-size: 0.9rem;
+      color: #d2d6ff;
+      line-height: 1.5;
+    }
+
+    .info-text a {
+      color: #00c6ff;
+      text-decoration: none;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(0, 255, 0, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      display: none;
+    }
+
+    .status.active {
+      display: block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <div class="painel">
+    <h2>PAINEL @SIELZADA</h2>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="funcoes">funções do painel</div>
+      <div class="tab" data-tab="info">@sielxis</div>
+    </div>
+
+    <div class="tab-content active" id="funcoes">
+      <div class="options">
+        <label><input type="checkbox" id="auxilio"> auxilio</label>
+        <label><input type="checkbox" id="aimlock"> aimlock</label>
+      </div>
+
+      <div class="slider-container">
+        <label>Fov <span class="fov-value" id="fovDisplay">5</span></label>
+        <input type="range" min="0" max="10" value="5" id="fovRange">
+      </div>
+
+      <select id="modeSelect">
+        <option value="50">auxilio 50%</option>
+        <option value="75">auxilio 75%</option>
+        <option value="100">auxilio 100%</option>
+      </select>
+
+      <button class="btn" id="injectBtn">INJETAR AO JOGO?</button>
+
+      <div class="status" id="status">
+        <strong>✓ Aimbot Ativado!</strong>
+        <p style="font-size: 0.85rem; margin-top: 5px;">Sistema injetado com sucesso</p>
+      </div>
+    </div>
+
+    <div class="tab-content" id="info">
+      <div class="info-text">
+        <p><strong>@sielxis</strong> responsável pelo design e interface.</p>
+        <p style="margin-top: 10px;">📘 Siga no Instagram:  
+          <a href="https://instagram.com/sielxis" target="_blank">@sielxis</a>
+        </p>
+        <p style="margin-top: 15px; font-size: 0.8rem; color: #999;">
+          Versão: 1.0.0<br>
+          Build: 2025.01
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
