@@ -15,7 +15,6 @@ exports.handler = async (event, context) => {
             const body = JSON.parse(event.body || '{}');
             const { mode, fov, intensity } = body;
 
-            // Configurações do Aimbot baseadas nos códigos fornecidos
             const aimbotConfig = {
                 aimlock: {
                     enabled: true,
@@ -62,17 +61,9 @@ exports.handler = async (event, context) => {
                         miraGrudar: true,
                         headshot100: true
                     }
-                },
-                advanced: {
-                    mouseOriginalGetRecoil: 'NULL',
-                    startActivity: true,
-                    pathConfig: 'com.dts.freefireth/config',
-                    aimbotTrue: true,
-                    nullFull: true
                 }
             };
 
-            // Configuração específica baseada no modo
             let response = {
                 success: true,
                 mode: mode || 'auxilio',
@@ -99,7 +90,6 @@ exports.handler = async (event, context) => {
         }
     }
 
-    // GET request - retorna configurações padrão
     const defaultConfig = {
         success: true,
         modes: ['auxilio 50%', 'auxilio 75%', 'auxilio 100%'],
@@ -116,66 +106,5 @@ exports.handler = async (event, context) => {
 };
 
 function generateInjectionCode(mode, fov, intensity) {
-    const baseCode = `
-// Aimbot Injection Code
-// Mode: ${mode}
-// FOV: ${fov}
-// Intensity: ${intensity}%
-
-const AimbotConfig = {
-    DWORD_AIMBOT_BASE: 0x00001,
-    SENSITIVITY_OFFSET: 0x00002,
-    HEADSHOT_OFFSET: 0x00008,
-    PACKAGE: "com.dts.freefireth",
-    VERSION: "1.94.8",
-    
-    TouchMove: {
-        DX: "esp+560h+wndpl rcNormalPosition",
-        CX: "esp+560h wndpl.rcNormalPosition bottom=10000030",
-        TOP: "top=1000C034"
-    },
-    
-    MemoryBase: {
-        LIBIL2CPP: 0xC9687000,
-        RECOIL_ADDR: 0xCB9B26DC,
-        AIM_ADDR: 0xCB9B26E0
-    },
-    
-    Settings: {
-        aimlock: true,
-        headshot: true,
-        noRecoil: true,
-        fov: ${fov},
-        intensity: ${intensity}
-    }
-};
-
-// Ativação do Aimbot
-function injectAimbot() {
-    const registry = {
-        "Dword AimBot: 00001": "AimBot 100% Registre Sensitivy",
-        "Dword AimBot: 00002": "Sensitivy AimBot 100% = Mira-Não-Treme",
-        "Dword AimBot: 00003": "String AimBot 100% Mira-Pesada-Com-Mais-Precisão",
-        "Dword AimBot: 00004": "AimBot 100% Vip Registre",
-        "Dword AimBot: 00005": "Sensitivy AimBot Mira-Grudar-100%",
-        "Dword AimBot: 00006": "100%-Mira-Segurar-Na-Cabeça",
-        "Dword AimBot: 00007": "StartActivy AimGrudar AimBot Grudar 100%",
-        "Dword AimBot: 00008": "Head Kill 100% Headshot",
-        "Dword AimBot: 00009": "String AimBot 100% Path config"
-    };
-    
-    return {
-        status: "injected",
-        mode: "${mode}",
-        config: AimbotConfig,
-        registry: registry
-    };
-}
-
-// Execute injection
-const result = injectAimbot();
-console.log("Aimbot ativado:", result);
-`;
-    
-    return baseCode;
+    return `// Aimbot Code - Mode: ${mode}, FOV: ${fov}, Intensity: ${intensity}%`;
 }
