@@ -1,85 +1,82 @@
-const API_BASE = window.location.hostname === 'localhost' 
-    ? 'http://localhost:8888/.netlify/functions' 
-    : '/.netlify/functions';
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.nav-dot');
+const totalSlides = slides.length;
 
-particlesJS('particles-js', {
-  "particles": {
-    "number": { "value": 70 },
-    "color": { "value": "#3a7bfd" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.5 },
-    "size": { "value": 3, "random": true },
-    "line_linked": { 
-      "enable": true, 
-      "distance": 150, 
-      "color": "#3a7bfd", 
-      "opacity": 0.4, 
-      "width": 1 
-    },
-    "move": { "enable": true, "speed": 2 }
-  },
-  "interactivity": {
-    "events": {
-      "onhover": { "enable": true, "mode": "repulse" },
-      "onclick": { "enable": true, "mode": "push" }
-    }
+// Função para mostrar slide específico
+function showSlide(index) {
+  // Remove active de todos os slides e dots
+  slides.forEach(slide => slide.classList.remove('active'));
+  dots.forEach(dot => dot.classList.remove('active'));
+
+  // Adiciona active ao slide e dot atual
+  slides[index].classList.add('active');
+  dots[index].classList.add('active');
+}
+
+// Função para mudar slide (próximo/anterior)
+function changeSlide(direction) {
+  currentSlide += direction;
+
+  // Loop infinito
+  if (currentSlide >= totalSlides) {
+    currentSlide = 0;
+  } else if (currentSlide < 0) {
+    currentSlide = totalSlides - 1;
+  }
+
+  showSlide(currentSlide);
+}
+
+// Função para ir direto a um slide específico
+function goToSlide(index) {
+  currentSlide = index;
+  showSlide(currentSlide);
+}
+
+// Auto-play (opcional) - avança automaticamente a cada 5 segundos
+let autoPlayInterval = setInterval(() => {
+  changeSlide(1);
+}, 5000);
+
+// Pausa o auto-play quando o usuário interage
+document.querySelector('.slider-container').addEventListener('click', () => {
+  clearInterval(autoPlayInterval);
+  // Reinicia o auto-play após 10 segundos de inatividade
+  autoPlayInterval = setInterval(() => {
+    changeSlide(1);
+  }, 5000);
+});
+
+// Navegação por teclado
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') {
+    changeSlide(-1);
+  } else if (e.key === 'ArrowRight') {
+    changeSlide(1);
   }
 });
 
-const fovRange = document.getElementById('fovRange');
-const fovDisplay = document.getElementById('fovDisplay');
-fovRange.addEventListener('input', () => {
-  fovDisplay.textContent = fovRange.value;
+// Suporte para gestos de toque (mobile)
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.querySelector('.slider-container').addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
 });
 
-const tabs = document.querySelectorAll('.tab');
-const contents = document.querySelectorAll('.tab-content');
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
-    contents.forEach(c => c.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById(tab.dataset.tab).classList.add('active');
-  });
+document.querySelector('.slider-container').addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
 });
 
-const injectBtn = document.getElementById('injectBtn');
-const status = document.getElementById('status');
-
-injectBtn.addEventListener('click', async () => {
-  const config = {
-    auxilio: document.getElementById('auxilio').checked,
-    aimlock: document.getElementById('aimlock').checked,
-    fov: parseInt(fovRange.value),
-    mode: document.getElementById('modeSelect').value,
-    intensity: parseInt(document.getElementById('modeSelect').value)
-  };
-
-  injectBtn.textContent = 'INJETANDO...';
-  injectBtn.disabled = true;
-
-  try {
-    const response = await fetch(`${API_BASE}/aimbot`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(config)
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      status.classList.add('active');
-      injectBtn.textContent = '✓ INJETADO!';
-      
-      setTimeout(() => {
-        injectBtn.textContent = 'INJETAR AO JOGO?';
-        injectBtn.disabled = false;
-        status.classList.remove('active');
-      }, 3000);
-    }
-  } catch (error) {
-    console.error('Erro:', error);
-    injectBtn.textContent = 'INJETAR AO JOGO?';
-    injectBtn.disabled = false;
+function handleSwipe() {
+  if (touchEndX < touchStartX - 50) {
+    // Swipe left
+    changeSlide(1);
   }
-});
+  if (touchEndX > touchStartX + 50) {
+    // Swipe right
+    changeSlide(-1);
+  }
+}

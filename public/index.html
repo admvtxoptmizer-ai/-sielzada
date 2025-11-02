@@ -3,252 +3,325 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel @SIELZADA</title>
+  <title>Férias de Estudante 2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
     }
 
     body {
-      height: 100vh;
+      font-family: 'Poppins', sans-serif;
       overflow: hidden;
-      background: #0b0f29;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      color: white;
-      position: relative;
-    }
-
-    #particles-js {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
-
-    .painel {
-      position: relative;
-      z-index: 1;
-      background: rgba(10, 20, 60, 0.9);
-      border-radius: 20px;
-      padding: 25px;
-      width: 320px;
-      text-align: center;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
-    }
-
-    h2 {
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-      color: #fff;
-      letter-spacing: 1px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    h2::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
-      animation: shine 3s infinite;
-    }
-
-    @keyframes shine {
-      0% { left: -100%; }
-      100% { left: 150%; }
-    }
-
-    .tabs {
-      display: flex;
-      justify-content: space-between;
-      background: #0d1a5b;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 25px;
-    }
-
-    .tab {
-      flex: 1;
-      padding: 10px 0;
-      background: #132b82;
-      color: #fff;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: 0.3s;
-      user-select: none;
-    }
-
-    .tab.active {
-      background: #3a7bfd;
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-      animation: fadeIn 0.4s;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .options {
-      text-align: left;
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-    }
-
-    input[type="checkbox"] {
-      transform: scale(1.2);
-      margin-right: 8px;
-      accent-color: #3a7bfd;
-      cursor: pointer;
     }
 
     .slider-container {
-      margin: 15px 0;
+      width: 90%;
+      max-width: 900px;
+      height: 600px;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px;
+      text-align: center;
+      color: white;
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .slide h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      animation: slideInDown 0.8s ease-out;
+    }
+
+    .slide h2 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      animation: slideInDown 0.8s ease-out;
+    }
+
+    .slide p {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      max-width: 700px;
+      font-weight: 300;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-out 0.3s both;
+    }
+
+    .slide ul {
+      list-style: none;
+      font-size: 1.2rem;
+      line-height: 2.2;
       text-align: left;
+      animation: fadeIn 1s ease-out 0.5s both;
     }
 
-    input[type="range"] {
-      width: 100%;
-      accent-color: #3a7bfd;
-      cursor: pointer;
+    .slide ul li {
+      margin-bottom: 15px;
+      padding-left: 30px;
+      position: relative;
     }
 
-    .fov-value {
-      float: right;
+    .slide ul li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #ffd700;
       font-weight: bold;
-      color: #3a7bfd;
+      font-size: 1.4rem;
     }
 
-    select {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      background: #091d5c;
+    .emoji {
+      font-size: 5rem;
+      margin-bottom: 20px;
+      animation: bounce 1s infinite;
+    }
+
+    /* Backgrounds individuais para cada slide */
+    .slide-1 {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .slide-2 {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .slide-3 {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .slide-4 {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .slide-5 {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .slide-6 {
+      background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+    }
+
+    /* Navegação */
+    .navigation {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 15px;
+      z-index: 10;
+    }
+
+    .nav-dot {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid white;
+    }
+
+    .nav-dot.active {
+      background: white;
+      transform: scale(1.3);
+    }
+
+    .nav-dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Botões de navegação */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.3);
       color: white;
       border: none;
-      margin-bottom: 25px;
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
       cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
     }
 
-    .btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(90deg, #3a7bfd, #00c6ff);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      text-transform: uppercase;
-      font-size: 0.95rem;
-      animation: glow 2.5s infinite alternate;
-      transition: all 0.2s;
+    .arrow:hover {
+      background: rgba(255, 255, 255, 0.5);
+      transform: translateY(-50%) scale(1.1);
     }
 
-    .btn:hover {
-      transform: scale(1.03);
+    .arrow-left {
+      left: 20px;
     }
 
-    @keyframes glow {
-      0% { box-shadow: 0 0 10px #3a7bfd; }
-      100% { box-shadow: 0 0 20px #00c6ff; }
+    .arrow-right {
+      right: 20px;
     }
 
-    .info-text {
-      font-size: 0.9rem;
-      color: #d2d6ff;
-      line-height: 1.5;
+    /* Animações */
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .info-text a {
-      color: #00c6ff;
-      text-decoration: none;
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
-    .status {
-      margin-top: 15px;
-      padding: 10px;
-      background: rgba(0, 255, 0, 0.1);
-      border-radius: 8px;
-      border: 1px solid rgba(0, 255, 0, 0.3);
-      display: none;
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
     }
 
-    .status.active {
-      display: block;
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .slider-container {
+        height: 500px;
+      }
+
+      .slide h1 {
+        font-size: 2.5rem;
+      }
+
+      .slide h2 {
+        font-size: 1.8rem;
+      }
+
+      .slide p {
+        font-size: 1.1rem;
+      }
+
+      .slide ul {
+        font-size: 1rem;
+      }
+
+      .emoji {
+        font-size: 3.5rem;
+      }
+
+      .arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="particles-js"></div>
-
-  <div class="painel">
-    <h2>PAINEL @SIELZADA</h2>
-
-    <div class="tabs">
-      <div class="tab active" data-tab="funcoes">funções</div>
-      <div class="tab" data-tab="info">@sielxis</div>
+  <div class="slider-container">
+    <!-- Slide 1: Introdução -->
+    <div class="slide slide-1 active">
+      <div class="emoji">🎉</div>
+      <h1>Férias de Estudante</h1>
+      <p>Chegou a hora mais esperada do ano! Prepare-se para aproveitar ao máximo suas férias escolares com diversão, descanso e muitas aventuras!</p>
     </div>
 
-    <div class="tab-content active" id="funcoes">
-      <div class="options">
-        <label><input type="checkbox" id="auxilio"> auxilio</label>
-        <label><input type="checkbox" id="aimlock"> aimlock</label>
-      </div>
-
-      <div class="slider-container">
-        <label>Fov <span class="fov-value" id="fovDisplay">5</span></label>
-        <input type="range" min="0" max="10" value="5" id="fovRange">
-      </div>
-
-      <select id="modeSelect">
-        <option value="50">auxilio 50%</option>
-        <option value="75">auxilio 75%</option>
-        <option value="100">auxilio 100%</option>
-      </select>
-
-      <button class="btn" id="injectBtn">INJETAR AO JOGO?</button>
-
-      <div class="status" id="status">
-        <strong>✓ Aimbot Ativado!</strong>
-      </div>
+    <!-- Slide 2: Descanso -->
+    <div class="slide slide-2">
+      <div class="emoji">😴</div>
+      <h2>Tempo de Descansar</h2>
+      <p>Depois de um ano inteiro de estudos, provas e trabalhos, você merece relaxar! Durma até tarde, assista suas séries favoritas e recarregue as energias.</p>
     </div>
 
-    <div class="tab-content" id="info">
-      <div class="info-text">
-        <p><strong>@sielxis</strong> responsável pelo design e interface.</p>
-        <p style="margin-top: 10px;">📘 Siga no Instagram:  
-          <a href="#">@sielxis</a>
-        </p>
-      </div>
+    <!-- Slide 3: Diversão -->
+    <div class="slide slide-3">
+      <div class="emoji">🏖️</div>
+      <h2>Diversão Garantida</h2>
+      <ul>
+        <li>Viagens com a família</li>
+        <li>Praia, piscina e sol</li>
+        <li>Acampamentos e aventuras</li>
+        <li>Jogos e brincadeiras com amigos</li>
+      </ul>
+    </div>
+
+    <!-- Slide 4: Aprender Coisas Novas -->
+    <div class="slide slide-4">
+      <div class="emoji">🎨</div>
+      <h2>Descubra Novos Hobbies</h2>
+      <p>Férias também são para aprender! Experimente tocar um instrumento, pintar, cozinhar, programar ou praticar um novo esporte. O céu é o limite!</p>
+    </div>
+
+    <!-- Slide 5: Amigos e Família -->
+    <div class="slide slide-5">
+      <div class="emoji">👨‍👩‍👧‍👦</div>
+      <h2>Momentos Especiais</h2>
+      <p>Aproveite para passar mais tempo com quem você ama. Jogue, converse, faça piqueniques e crie memórias inesquecíveis com amigos e família!</p>
+    </div>
+
+    <!-- Slide 6: Conclusão -->
+    <div class="slide slide-6">
+      <div class="emoji">🚀</div>
+      <h2>Aproveite Cada Momento!</h2>
+      <p>As férias passam rápido, então aproveite cada segundo! Divirta-se, descanse, explore e volte cheio de energia para um novo ano escolar incrível!</p>
+    </div>
+
+    <!-- Navegação -->
+    <button class="arrow arrow-left" onclick="changeSlide(-1)">‹</button>
+    <button class="arrow arrow-right" onclick="changeSlide(1)">›</button>
+
+    <div class="navigation">
+      <span class="nav-dot active" onclick="goToSlide(0)"></span>
+      <span class="nav-dot" onclick="goToSlide(1)"></span>
+      <span class="nav-dot" onclick="goToSlide(2)"></span>
+      <span class="nav-dot" onclick="goToSlide(3)"></span>
+      <span class="nav-dot" onclick="goToSlide(4)"></span>
+      <span class="nav-dot" onclick="goToSlide(5)"></span>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
